@@ -1,0 +1,15 @@
+<!doctype html>
+<html>
+<head><meta charset="utf-8"><title>Patients</title></head>
+<body>
+  <h1>Patients</h1>
+  <ul>
+    {% for p in patients %}
+      <li><a href="{% url 'patients:dashboard' p.id %}">{{ p.name }}</a></li>
+    {% empty %}
+      <li>No patients yet</li>
+    {% endfor %}
+  </ul>
+  <p><a href="{% url 'patients:create_patient' %}">Create patient</a></p>
+</body>
+</html>

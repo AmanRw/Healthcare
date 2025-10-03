@@ -1,0 +1,13 @@
+<!doctype html>
+<html>
+<head><meta charset="utf-8"><title>Create patient</title></head>
+<body>
+  <h1>Create patient</h1>
+  <form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Create</button>
+  </form>
+  <p><a href="{% url 'patients:index' %}">Back</a></p>
+</body>
+</html>
