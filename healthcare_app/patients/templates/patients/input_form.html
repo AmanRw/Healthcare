@@ -2,15 +2,17 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <title>Add reading - {{ patient.name }}</title>
+  <title>Add Reading - {{ patient.name }}</title>
 </head>
 <body>
-  <h1>Add reading for {{ patient.name }}</h1>
+  <h1>Add Reading for {{ patient.name }}</h1>
+
   <form method="post">
     {% csrf_token %}
     {{ form.as_p }}
-    <button type="submit">Submit</button>
+    <button type="submit">Save</button>
   </form>
-  <p><a href="{% url 'patients:dashboard' patient.id %}">Back to dashboard</a></p>
+
+  <p><a href="{% url 'patients:dashboard' patient_id=patient.id %}">⬅ Back to Dashboard</a></p>
 </body>
 </html>

@@ -1,5 +1,5 @@
 from django import forms
-from .models import Reading, Patient
+from .models import Reading, Patient,DiagnosticImage
 
 class ReadingForm(forms.ModelForm):
     class Meta:
@@ -10,3 +10,8 @@ class PatientForm(forms.ModelForm):
     class Meta:
         model = Patient
         fields = ["name", "age", "email"]
+
+class DiagnosticImageForm(forms.ModelForm):
+    class Meta:
+        model = DiagnosticImage
+        fields = ['image']

@@ -2,10 +2,11 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <title>Dashboard - {{ patient.name }}</title>
+  <title>Dashboard — {{ patient.name }}</title>
 </head>
 <body>
   <h1>Dashboard — {{ patient.name }}</h1>
+
   {% if status %}
     <p><strong>Status:</strong> {{ status }}</p>
   {% endif %}
@@ -13,15 +14,27 @@
   <h2>Stats</h2>
   <ul>
     {% for rtype, data in stats.items %}
-      <li>{{ rtype }} — {% if data.Count %}
-        count: {{ data.count }}, last: {{ data.last }}, mean: {{ data.mean }}, stdev: {{ data.stdev }}
-      {% else %}No readings{% endif %}</li>
+      <li>
+        {{ rtype }} —
+        {% if data.count > 0 %}
+          count: {{ data.count }},
+          last: {{ data.last }},
+          mean: {{ data.mean }},
+          stdev: {{ data.stdev }}
+        {% else %}
+          No readings
+        {% endif %}
+      </li>
     {% endfor %}
   </ul>
 
   <h2>Recent readings</h2>
   <table border="1" cellpadding="4">
-    <tr><th>Type</th><th>Value</th><th>Timestamp</th></tr>
+    <tr>
+      <th>Type</th>
+      <th>Value</th>
+      <th>Timestamp</th>
+    </tr>
     {% for r in readings %}
       <tr>
         <td>{{ r.get_reading_type_display }}</td>
@@ -34,8 +47,14 @@
   </table>
 
   <p>
-    <a href="{% url 'patients:add_reading' patient.id %}">Add reading</a> |
+    <!-- Correct namespace usage -->
+    <a href="{% url 'patients:input_reading' patient.id %}">Add reading</a> |
     <a href="{% url 'patients:index' %}">All patients</a>
+  </p>
+
+  <h2>Diagnostics</h2>
+  <p>
+    <a href="{% url 'patients:upload_diagnostic' patient.id %}">Upload Diagnostic Image</a>
   </p>
 </body>
 </html>

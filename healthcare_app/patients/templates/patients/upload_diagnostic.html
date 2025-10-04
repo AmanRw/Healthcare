@@ -1,0 +1,15 @@
+<!doctype html>
+<html>
+<head><title>Upload Diagnostic</title></head>
+<body>
+  <h1>Upload Image for {{ patient.name }}</h1>
+
+  <form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Upload</button>
+  </form>
+
+  <a href="/">Back</a>
+</body>
+</html>

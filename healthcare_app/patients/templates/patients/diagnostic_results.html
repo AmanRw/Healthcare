@@ -1,0 +1,14 @@
+<!doctype html>
+<html>
+<head><title>Diagnostic Results</title></head>
+<body>
+  <h1>Diagnostic Result</h1>
+
+  <p>Patient: {{ diagnosis.patient.name }}</p>
+  <p>Uploaded at: {{ diagnosis.uploaded_at }}</p>
+  <p><strong>AI Result:</strong> {{ diagnosis.result }}</p>
+  <p><img src="{{ diagnosis.image.url }}" alt="Uploaded Image" width="300"></p>
+
+  <a href="/">Back to Patients</a>
+</body>
+</html>

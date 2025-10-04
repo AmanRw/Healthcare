@@ -1,15 +1,28 @@
 <!doctype html>
 <html>
-<head><meta charset="utf-8"><title>Patients</title></head>
+<head>
+  <meta charset="utf-8">
+  <title>Patients List</title>
+</head>
 <body>
   <h1>Patients</h1>
+
   <ul>
-    {% for p in patients %}
-      <li><a href="{% url 'patients:dashboard' p.id %}">{{ p.name }}</a></li>
+    {% for patient in patients %}
+      <li>
+        <strong>{{ patient.name }}</strong> ({{ patient.age }} yrs, {{ patient.email }})
+        |
+        <a href="{% url 'patients:dashboard' patient_id=patient.id %}">Dashboard</a>
+        |
+        <a href="{% url 'patients:input_reading' patient.id %}">Add Reading</a>
+        |
+        <a href="{% url 'patients:upload_diagnostic' patient.id %}">Diagnostic</a>
+      </li>
     {% empty %}
-      <li>No patients yet</li>
+      <li>No patients yet.</li>
     {% endfor %}
   </ul>
-  <p><a href="{% url 'patients:create_patient' %}">Create patient</a></p>
+
+  <p><a href="{% url 'patients:create_patient' %}">➕ Add New Patient</a></p>
 </body>
 </html>

@@ -1,6 +1,7 @@
+import random
 from django.shortcuts import render, redirect, get_object_or_404
-from .models import Patient, Reading
-from .forms import PatientForm, ReadingForm
+from .models import Patient, Reading,DiagnosticImage
+from .forms import PatientForm, ReadingForm,DiagnosticImageForm
 from ai_models.glucose_model import SimpleAnomalyDetector
 from django.urls import reverse
 
@@ -47,6 +48,25 @@ def add_reading(request, patient_id):
         form = ReadingForm()
     return render(request, "patients/input_form.html", {"form": form, "patient": patient})
 
+
+def input_reading(request, pk):
+    patient = get_object_or_404(Patient, pk=pk)
+
+    if request.method == "POST":
+        form = ReadingForm(request.POST)
+        if form.is_valid():
+            reading = form.save(commit=False)
+            reading.patient = patient
+            reading.save()
+            # Correct namespace and URL parameter
+            return redirect('patients:dashboard', patient_id=patient.pk)
+    else:
+        form = ReadingForm()
+
+    return render(request, 'patients/input_form.html', {'form': form, 'patient': patient})
+
+
+
 def dashboard(request, patient_id):
     patient = get_object_or_404(Patient, id=patient_id)
     readings = patient.readings.all()[:50]  # most recent 50
@@ -66,3 +86,27 @@ def dashboard(request, patient_id):
         else:
             stats[rtype] = {"count": 0}
     return render(request, "patients/dashboard.html", {"patient": patient, "readings": readings, "status": status, "stats": stats})
+
+
+
+def upload_diagnostic(request, pk):
+    patient = get_object_or_404(Patient, pk=pk)
+
+    if request.method == "POST":
+        form = DiagnosticImageForm(request.POST, request.FILES)
+        if form.is_valid():
+            diag = form.save(commit=False)
+            diag.patient = patient
+            # Example AI placeholder result
+            diag.result = random.choice(["Normal", "Abnormal"])
+            diag.save()
+            return redirect('patients:diagnostic_results', pk=diag.id)
+    else:
+        form = DiagnosticImageForm()
+
+    return render(request, "patients/upload_diagnostic.html", {"form": form, "patient": patient})
+
+
+def diagnostic_results(request, pk):
+    diag = get_object_or_404(DiagnosticImage, pk=pk)
+    return render(request, "patients/diagnostic_results.html", {"diagnosis": diag})

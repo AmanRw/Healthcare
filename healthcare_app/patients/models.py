@@ -27,3 +27,22 @@ class Reading(models.Model):
 
     def __str__(self):
         return f"{self.patient.name} {self.reading_type} {self.value} at {self.timestamp}"
+
+class HealthReading(models.Model):
+    patient = models.ForeignKey(Patient, on_delete=models.CASCADE)
+    date = models.DateTimeField(auto_now_add=True)
+    heart_rate = models.IntegerField()
+    glucose_level = models.FloatField()
+    blood_pressure = models.CharField(max_length=20)
+
+    def __str__(self):
+        return f"{self.patient.name} - {self.date}"
+
+class DiagnosticImage(models.Model):
+    patient = models.ForeignKey(Patient, on_delete=models.CASCADE)
+    image = models.ImageField(upload_to="diagnostics/")
+    result = models.CharField(max_length=100, blank=True, null=True)
+    timestamp = models.DateTimeField(auto_now_add=True) # AI prediction
+
+    def __str__(self):
+        return f"{self.patient.name} - {self.result or 'Pending'}"
