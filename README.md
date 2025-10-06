@@ -16,7 +16,7 @@ A Django-based healthcare web application that allows doctors or administrators 
 
 ## 🏗️ Project Structure
 
-healthcare_app/
+healthcare_app/<br>
 ├── manage.py
 ├── healthcare_app/
 │ ├── init.py
